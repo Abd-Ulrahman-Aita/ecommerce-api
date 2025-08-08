@@ -25,6 +25,8 @@ const router = Router();
  *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -81,6 +83,8 @@ router.post('/', protect, createOrder);
  *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     responses:
  *       200:
  *         description: List of the user's orders
@@ -111,6 +115,8 @@ router.get('/', protect, getUserOrders);
  *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     responses:
  *       200:
  *         description: List of all orders
@@ -144,6 +150,7 @@ router.get('/all', protect, isAdmin, getAllOrders);
  *     security:
  *       - bearerAuth: []
  *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *       - in: path
  *         name: id
  *         required: true

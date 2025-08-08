@@ -67,6 +67,8 @@ const router = Router();
  *     tags: [Products]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -110,6 +112,8 @@ router.post('/', protect, createProduct);
  *   get:
  *     summary: Get all products
  *     tags: [Products]
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     responses:
  *       200:
  *         description: List of products
@@ -131,6 +135,7 @@ router.get('/', getProducts);
  *     summary: Get product details by ID
  *     tags: [Products]
  *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *       - in: path
  *         name: id
  *         required: true
@@ -158,6 +163,7 @@ router.get('/:id', getProductById);
  *     security:
  *       - bearerAuth: []
  *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *       - in: path
  *         name: id
  *         required: true
@@ -209,6 +215,7 @@ router.patch('/:id', protect, updateProduct);
  *     security:
  *       - bearerAuth: []
  *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *       - in: path
  *         name: id
  *         required: true

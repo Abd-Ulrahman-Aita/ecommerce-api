@@ -31,6 +31,18 @@ const options = {
           bearerFormat: 'JWT',
         },
       },
+      parameters: {
+        AcceptLanguageHeader: {
+          name: 'Accept-Language',
+          in: 'header',
+          description: 'Language preference for the response (e.g., "en", "ar")',
+          required: false,
+          schema: {
+            type: 'string',
+            example: 'en',
+          },
+        },
+      },
       schemas: {
         OrderItem: {
           type: 'object',

@@ -49,7 +49,6 @@ export const getProductById = async (id: string) => {
   }
 
   const product = await Product.findById(id).populate('owner', 'name email');
-
   if (!product) {
     throw new AppError('product.not_found', 404);
   }
@@ -74,13 +73,14 @@ export const updateProduct = async (
   }
 
   const product = await Product.findById(id);
-
   if (!product) {
     throw new AppError('product.not_found', 404);
   }
 
-  // Check if user is owner and admin
-  if (product.owner.toString() !== userId && userRole !== UserRole.ADMIN) {
+  const isOwner = product.owner.toString() === userId;
+  const isAdmin = userRole === UserRole.ADMIN;
+
+  if (!isOwner && !isAdmin) {
     throw new AppError('auth.unauthorized', 403);
   }
 
@@ -109,13 +109,14 @@ export const deleteProduct = async (
   }
 
   const product = await Product.findById(id);
-
   if (!product) {
     throw new AppError('product.not_found', 404);
   }
 
-  // Check if user is owner and admin
-  if (product.owner.toString() !== userId && userRole !== UserRole.ADMIN) {
+  const isOwner = product.owner.toString() === userId;
+  const isAdmin = userRole === UserRole.ADMIN;
+
+  if (!isOwner && !isAdmin) {
     throw new AppError('auth.unauthorized', 403);
   }
 

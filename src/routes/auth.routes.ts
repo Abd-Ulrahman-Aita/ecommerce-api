@@ -60,6 +60,8 @@ const router = Router();
  *   post:
  *     summary: Register a new user
  *     tags: [Auth]
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -91,6 +93,8 @@ router.post('/register', register);
  *   post:
  *     summary: Verify email with OTP
  *     tags: [Auth]
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -119,6 +123,8 @@ router.post('/verify-email', verifyEmail);
  *   post:
  *     summary: Login with email and password
  *     tags: [Auth]
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -151,6 +157,8 @@ router.post('/login', login);
  *   get:
  *     summary: Get current user's profile
  *     tags: [Auth]
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -171,6 +179,8 @@ router.get('/profile', protect, getProfile);
  *   post:
  *     summary: Request a password reset via email
  *     tags: [Auth]
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -196,6 +206,8 @@ router.post('/forgot-password', forgotPassword);
  *   post:
  *     summary: Reset password with OTP
  *     tags: [Auth]
+ *     parameters:
+ *       - $ref: '#/components/parameters/AcceptLanguageHeader'
  *     requestBody:
  *       required: true
  *       content:
