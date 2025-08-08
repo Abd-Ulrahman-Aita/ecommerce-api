@@ -20,7 +20,7 @@ const seed = async () => {
       email: 'admin@example.com',
       password: hashedPassword,
       role: 'ADMIN',
-      is_verified: true,
+      isVerified: true,
     });
     console.log('👤 Admin created');
   } else {

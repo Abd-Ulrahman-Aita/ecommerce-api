@@ -197,7 +197,8 @@ router.get('/:id', getProductById);
  *       404:
  *         description: Product not found
  */
-router.patch('/:id', protect, isAdmin, updateProduct);
+// router.patch('/:id', protect, isAdmin, updateProduct);
+router.patch('/:id', protect, updateProduct);
 
 /**
  * @swagger
@@ -224,6 +225,7 @@ router.patch('/:id', protect, isAdmin, updateProduct);
  *       404:
  *         description: Product not found
  */
-router.delete('/:id', protect, isAdmin, deleteProduct);
+// router.delete('/:id', protect, isAdmin, deleteProduct);
+router.delete('/:id', protect, deleteProduct);
 
 export default router;

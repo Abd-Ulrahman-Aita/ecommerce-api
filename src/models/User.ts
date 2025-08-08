@@ -24,7 +24,9 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isVerified: { type: Boolean, default: false },
-    role: { type: String, enum: Object.values(UserRole), default: UserRole.USER }
+    role: { type: String, enum: Object.values(UserRole), default: UserRole.USER },
+    passwordResetOtp: { type: String, required: false },
+    passwordResetOtpExpires: { type: Date, required: false },
   },
   { timestamps: true }
 );
