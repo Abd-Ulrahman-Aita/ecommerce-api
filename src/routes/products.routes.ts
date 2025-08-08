@@ -158,7 +158,7 @@ router.get('/:id', getProductById);
  * @swagger
  * /products/{id}:
  *   patch:
- *     summary: Update a product by ID
+ *     summary: Update a product by ID (owner or admin only)
  *     tags: [Products]
  *     security:
  *       - bearerAuth: []
@@ -210,7 +210,7 @@ router.patch('/:id', protect, updateProduct);
  * @swagger
  * /products/{id}:
  *   delete:
- *     summary: Delete a product by ID
+ *     summary: Delete a product by ID (owner or admin only)
  *     tags: [Products]
  *     security:
  *       - bearerAuth: []
