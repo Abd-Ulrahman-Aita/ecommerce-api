@@ -1,7 +1,14 @@
 import { Router } from 'express';
-import { createOrder, getUserOrders, getAllOrders, deleteOrderById } from '../controllers/orders.controller';
+import {
+  createOrder,
+  getUserOrders,
+  getAllOrders,
+  deleteOrderById,
+} from '../controllers/orders.controller';
 import { protect } from '../middlewares/auth.middleware';
 import { isAdmin } from '../middlewares/role.middleware';
+
+const router = Router();
 
 /**
  * @swagger
@@ -25,25 +32,46 @@ import { isAdmin } from '../middlewares/role.middleware';
  *           schema:
  *             type: object
  *             required:
- *               - products
+ *               - items
  *             properties:
- *               products:
+ *               items:
  *                 type: array
  *                 items:
  *                   type: object
+ *                   required:
+ *                     - productId
+ *                     - quantity
  *                   properties:
  *                     productId:
  *                       type: string
+ *                       description: The ID of the product
  *                     quantity:
  *                       type: integer
+ *                       description: Quantity of the product
+ *             example:
+ *               items:
+ *                 - productId: "64fb12e3412abcddc9f9a9f1"
+ *                   quantity: 2
+ *                 - productId: "64fb12e3412abcddc9f9a9f2"
+ *                   quantity: 1
  *     responses:
  *       201:
  *         description: Order created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Order'
  *       400:
- *         description: Invalid request
+ *         description: Invalid request (e.g. missing items)
  *       401:
  *         description: Unauthorized
  */
+router.post('/', protect, createOrder);
 
 /**
  * @swagger
@@ -56,9 +84,24 @@ import { isAdmin } from '../middlewares/role.middleware';
  *     responses:
  *       200:
  *         description: List of the user's orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     orders:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Order'
  *       401:
  *         description: Unauthorized
  */
+router.get('/', protect, getUserOrders);
 
 /**
  * @swagger
@@ -71,11 +114,26 @@ import { isAdmin } from '../middlewares/role.middleware';
  *     responses:
  *       200:
  *         description: List of all orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     orders:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Order'
  *       401:
  *         description: Unauthorized
  *       403:
  *         description: Forbidden - Admins only
  */
+router.get('/all', protect, isAdmin, getAllOrders);
 
 /**
  * @swagger
@@ -91,7 +149,7 @@ import { isAdmin } from '../middlewares/role.middleware';
  *         required: true
  *         schema:
  *           type: string
- *         description: Order ID
+ *         description: The ID of the order to delete
  *     responses:
  *       200:
  *         description: Order deleted successfully
@@ -102,12 +160,6 @@ import { isAdmin } from '../middlewares/role.middleware';
  *       404:
  *         description: Order not found
  */
-
-const router = Router();
-
-router.post('/', protect, createOrder);
-router.get('/', protect, getUserOrders);
-router.get('/all', protect, isAdmin, getAllOrders);
 router.delete('/:id', protect, isAdmin, deleteOrderById);
 
 export default router;

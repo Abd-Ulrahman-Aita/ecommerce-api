@@ -4,16 +4,59 @@ import {
   getProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 } from '../controllers/products.controller';
 import { protect } from '../middlewares/auth.middleware';
 import { isAdmin } from '../middlewares/role.middleware';
+
+const router = Router();
 
 /**
  * @swagger
  * tags:
  *   name: Products
  *   description: Product management
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         price:
+ *           type: number
+ *         stock:
+ *           type: integer
+ *         sku:
+ *           type: string
+ *         owner:
+ *           type: object
+ *           properties:
+ *             _id:
+ *               type: string
+ *             name:
+ *               type: string
+ *             email:
+ *               type: string
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  */
 
 /**
@@ -35,6 +78,7 @@ import { isAdmin } from '../middlewares/role.middleware';
  *               - description
  *               - price
  *               - stock
+ *               - sku
  *             properties:
  *               name:
  *                 type: string
@@ -44,18 +88,21 @@ import { isAdmin } from '../middlewares/role.middleware';
  *                 type: number
  *               stock:
  *                 type: integer
- *               image:
- *                 type: string
  *               sku:
  *                 type: string
  *     responses:
  *       201:
  *         description: Product created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
  *       400:
  *         description: Invalid input
  *       401:
  *         description: Unauthorized
  */
+router.post('/', protect, createProduct);
 
 /**
  * @swagger
@@ -66,9 +113,16 @@ import { isAdmin } from '../middlewares/role.middleware';
  *     responses:
  *       200:
  *         description: List of products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
  *       500:
  *         description: Server error
  */
+router.get('/', getProducts);
 
 /**
  * @swagger
@@ -86,9 +140,14 @@ import { isAdmin } from '../middlewares/role.middleware';
  *     responses:
  *       200:
  *         description: Product found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
  *       404:
  *         description: Product not found
  */
+router.get('/:id', getProductById);
 
 /**
  * @swagger
@@ -120,13 +179,15 @@ import { isAdmin } from '../middlewares/role.middleware';
  *                 type: number
  *               stock:
  *                 type: integer
- *               image:
- *                 type: string
  *               sku:
  *                 type: string
  *     responses:
  *       200:
  *         description: Product updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
  *       400:
  *         description: Invalid data
  *       401:
@@ -136,6 +197,7 @@ import { isAdmin } from '../middlewares/role.middleware';
  *       404:
  *         description: Product not found
  */
+router.patch('/:id', protect, isAdmin, updateProduct);
 
 /**
  * @swagger
@@ -162,13 +224,6 @@ import { isAdmin } from '../middlewares/role.middleware';
  *       404:
  *         description: Product not found
  */
-
-const router = Router();
-
-router.post('/', protect, createProduct);
-router.get('/', getProducts);
-router.get('/:id', getProductById);
-router.patch('/:id', protect, isAdmin, updateProduct);
 router.delete('/:id', protect, isAdmin, deleteProduct);
 
 export default router;

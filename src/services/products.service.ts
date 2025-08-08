@@ -7,7 +7,7 @@ export const createProduct = async (
   userId: string,
   productData: {
     name: string;
-    description?: string;
+    description: string;
     price: number;
     stock: number;
     sku: string;
@@ -15,7 +15,7 @@ export const createProduct = async (
 ) => {
   const { name, description, price, stock, sku } = productData;
 
-  if (!name || !price || !stock || !sku) {
+  if (!name || !description || !price || !stock || !sku) {
     throw new AppError('product.missing_fields', 400);
   }
 
